@@ -512,6 +512,15 @@ function getAdvancedBrainResponse(input) {
         return "👋 <b>¡Hola, Director! Qué gusto saludarte.</b><br><br>" +
                "El sistema ChapAI Pro está operando al 100% en sus servidores 👍 ¿En qué proyecto o configuración de la plataforma vamos a trabajar hoy? ¡Estoy lista para ayudarte cuando quieras! 😉👌";
     }
+    
+        // 1.2 DETECTOR DE EMOJIS POSITIVOS Y CASUALES (¡Nuevo!)
+    const emojisPositivos = ['👍', '😎', '😂', '👌', '👏', '🔥', '🎉', '😉', '✨'];
+    const contieneEmojiPositivo = emojisPositivos.some(emoji => input.includes(emoji));
+
+    if (contieneEmojiPositivo) {
+        return "😎 <b>¡Ese es el espíritu, Director!</b><br><br>" +
+               "¡Muchas gracias por esa buena vibra! 👍 Mantengo todos los sistemas optimizados y listos. ¿Qué sigue en la agenda para MrTube o Chicken Strike hoy? ¡Tú mandas! 🚀🎬";
+    }
 
     // 2. DETECTOR DE EMOCIONES NEGATIVAS (¡Corregido!)
     const emojisEnojo = ['😡', '🤬', '🙄', '😤', '😩', '😫', '😠'];
