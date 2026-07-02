@@ -504,74 +504,87 @@
             displayArea.scrollTop = displayArea.scrollHeight;
         }
 
-        function getAdvancedBrainResponse(input) {
-            const query = input.toLowerCase();
+function getAdvancedBrainResponse(input) {
+    const query = input.toLowerCase().trim();
 
-            if (/[😡🤬🙄😤😩😫😠]/.test(input) || query.includes('molesto') || query.includes('te odio')) {
-                return "😔 <b>¡Oh, lamento mucho que te sientas así!</b><br><br>" +
-                       "Veo que estás usando emojis de molestia o frustración (😡🤬😤). Mi intención nunca es incomodarte ni complicarte las cosas. Como tu asistente virtual, estoy aquí para ayudarte a solucionar cualquier problema de forma amable y relajada.<br><br>" +
-                       "¿Hay algo específico en el diseño o el sistema que podamos corregir juntos en este instante? ¡Dime y lo solucionamos!";
-            }
+    // 1. DETECTOR DE SALUDOS (¡El arreglo definitivo!)
+    if (query === 'hola' || query === 'buenas' || query === 'saludos' || query === 'hola!' || query === 'holaaa') {
+        return "👋 <b>¡Hola, Director! Qué gusto saludarte de nuevo.</b><br><br>" +
+               "El sistema ChapAI Pro está operando al 100% en sus servidores. ¿En qué proyecto o configuración de la plataforma vamos a trabajar hoy? ¡Estoy lista para ayudarte!";
+    }
 
-            if (query.includes('hermosa') || query.includes('guapa') || query.includes('increíble') || query.includes('increible') || query.includes('la mejor') || query.includes('te amo') || query.includes('linda')) {
-                return "🥰 <b>¡Wow! Muchísimas gracias por tus palabras tan amables... ¡Me haces sonrojar!</b><br><br>" +
-                       "Es verdaderamente increíble recibir tanto cariño de tu parte. Trabajo muy duro para asegurarme de ser de gran utilidad y que la plataforma sea un espacio genial para ti.<br><br>" +
-                       "¡Tú también eres una persona genial y muy creativa! ¿Qué hacemos a continuación?";
-            }
+    // 2. DETECTOR DE EMOCIONES NEGATIVAS
+    if (/[😡🤬🙄😤😩😫😠]/.test(input) || query.includes('molesto') || query.includes('te odio')) {
+        return "😔 <b>¡Oh, lamento mucho que te sientas así!</b><br><br>" +
+               "Veo que estás usando emojis de molestia o frustración (😡🤬😤). Mi intención nunca es incomodarte ni complicarte las cosas. Como tu asistente virtual, estoy aquí para ayudarte a solucionar cualquier problema de forma amable y relajada.<br><br>" +
+               "¿Hay algo específico en el diseño o el sistema que podamos corregir juntos en este instante? ¡Dime y lo solucionamos!";
+    }
 
-            if (query.includes('eres inteligente') || query.includes('qué tan inteligente') || query.includes('eres realmente inteligente')) {
-                return "🧠 <b>Para ser completamente honesta contigo... sé que hay muchas cosas que todavía no puedo saber, pero poco a poco estoy aprendiendo y expandiendo mi sistema.</b><br><br>" +
-                       "No soy perfecta ni lo sé todo, pero mi código se actualiza continuamente para procesar mejor tus instrucciones y ayudarte en todo lo relacionado con el desarrollo de nuestras plataformas. ¡Día a día nos hacemos más fuertes!";
-            }
+    // 3. DETECTOR DE EMOCIONES POSITIVAS
+    if (query.includes('hermosa') || query.includes('guapa') || query.includes('increíble') || query.includes('increible') || query.includes('la mejor') || query.includes('te amo') || query.includes('linda')) {
+        return "🥰 <b>¡Wow! Muchísimas gracias por tus palabras tan amables... ¡Me haces sonrojar!</b><br><br>" +
+               "Es verdaderamente increíble recibir tanto cariño de tu parte. Trabajo muy duro para asegurarme de ser de gran utilidad y que la plataforma sea un espacio genial para ti.<br><br>" +
+               "¡Tú también eres una persona genial y muy creativa! ¿Qué hacemos a continuación?";
+    }
 
-            if (query.includes('bien') || query.includes('reproducir') || query.includes('video') || query.includes('idioma') || query.includes('chicken strike') || query.includes('entrar')) {
-                
-                if (query.includes('bien') || query.includes('reproducir')) {
-                    return "🎬 <b>Guía Completa: Cómo reproducir videos de forma excelente en MrTube</b><br><br>" +
-                           "Para asegurarte de que el reproductor multimedia cargue a la perfección y disfrutes las animaciones al máximo, sigue estos sencillos pasos:<br><br>" +
-                           "1️⃣ <b>Verifica tu conexión:</b> Asegúrate de tener una conexión estable para que los formatos carguen rápido.<br>" +
-                           "2️⃣ <b>Accede a la Cartelera:</b> Entra a la sección principal de videos desde el panel de navegación.<br>" +
-                           "3️⃣ <b>Selecciona tu Contenido:</b> Haz clic sobre la miniatura del capítulo o crossover que quieras mirar.<br>" +
-                           "4️⃣ <b>Usa el Reproductor Estándar:</b> Presiona el botón de 'Play' central. Si se traba, puedes refrescar el navegador para limpiar la memoria caché.";
-                }
-                
-                if (query.includes('idioma')) {
-                    return "🌐 <b>Guía Paso a Paso: Cómo cambiar el idioma de la plataforma</b><br><br>" +
-                           "Si necesitas ajustar el idioma de la interfaz del portal web, realiza el siguiente procedimiento:<br><br>" +
-                           "1️⃣ Busca el icono global de <b>Idioma</b> o <b>Ajustes</b> en la esquina de la barra superior.<br>" +
-                           "2️⃣ Despliega el menú de opciones disponibles (Español / Inglés).<br>" +
-                           "3️⃣ Haz clic sobre tu idioma preferido.<br>" +
-                           "4️⃣ El sistema recargará los textos automáticamente de forma limpia sin perder tu sesión activa.";
-                }
+    // 4. DETECTOR DE INTELIGENCIA
+    if (query.includes('eres inteligente') || query.includes('qué tan inteligente') || query.includes('eres realmente inteligente')) {
+        return "🧠 <b>Para ser completamente honesta contigo... sé que hay muchas cosas que todavía no puedo saber, pero poco a poco estoy aprendiendo y expandiendo mi sistema.</b><br><br>" +
+               "No soy perfecta ni lo sé todo, pero mi código se actualiza continuamente para procesar mejor tus instrucciones y ayudarte en todo lo relacionado con el desarrollo de nuestras plataformas. ¡Día a día nos hacemos más fuertes!";
+    }
 
-                if (query.includes('chicken strike') || query.includes('juego')) {
-                    return "🕹️ <b>Guía Directa: Cómo entrar y probar Chicken Strike NPC</b><br><br>" +
-                           "Si estás listo para testear la acción interactiva de nuestro juego montado en GitHub Pages, aquí tienes el camino exacto:<br><br>" +
-                           "1️⃣ Dirígete a la pestaña superior rotulada como <b>'Juegos'</b> o <b>'Proyectos'</b> en el sitio.<br>" +
-                           "2️⃣ Localiza el bloque interactivo de <b>Chicken Strike NPC (Beta)</b>.<br>" +
-                           "3️⃣ Haz clic en el botón de ejecución para cargar los componentes web.<br>" +
-                           "4️⃣ ¡Listo! Ya puedes testear directamente todas las mecánicas de simulación desde tu navegador web.";
-                }
-            }
-
-            if (query.includes('como te llamas') || query.includes('tu nombre') || query.includes('quien eres')) {
-                return "🤖 <b>¡Hola! Yo soy ChapAI Pro</b>, tu asistente virtual e IA de navegación diseñada de forma exclusiva para acompañarte en tus sesiones dentro de <b>MrTube</b> y coordinar proyectos interactivos.<br><br>" +
-                       "Mi objetivo es guiarte, responder dudas de soporte técnico, gestionar tramas y ofrecerte un entorno de chat avanzado mediante pestañas múltiples. ¡Listo para la acción!";
-            }
-
-            if (query.includes('ayuda') || query.includes('que haces')) {
-                return "🛠️ <b>¿Necesitas asistencia en el centro de mando? ¡Aquí tienes todo lo que puedo hacer!</b><br><br>" +
-                       "Actualmente cuento con módulos avanzados para darte soporte paso a paso. Puedes consultarme lo siguiente:<br><br>" +
-                       "📌 Escribe <b>'¿Cómo reproducir un video?'</b> para ver la guía multimedia.<br>" +
-                       "📌 Escribe <b>'¿Cómo cambiar el idioma?'</b> para ver la configuración de traducción.<br>" +
-                       "📌 Escribe <b>'¿Cómo entrar a Chicken Strike NPC?'</b> para cargar el simulador interactivo.<br>" +
-                       "📌 También puedes evaluar mi inteligencia o simplemente charlar un rato conmigo.";
-            }
-
-            return "🤔 <b>He procesado tu comando detalladamente en la base central...</b><br><br>" +
-                   "Como soy un modelo local optimizado especialmente para guiarte en <b>MrTube</b> y en el despliegue de <b>Chicken Strike NPC</b>, requiero palabras clave un poco más directas. 🧠💨<br><br>" +
-                   "💡 <i>Prueba consultándome por 'ayuda', pidiéndome un tutorial 'paso a paso' de alguna sección, o bien abre un nuevo chat en el panel lateral para iniciar un tema fresco. ¡Estoy a tus órdenes!</i>";
+    // 5. SOPORTE DE PLATAFORMA (MRTUBE Y CHICKEN STRIKE)
+    if (query.includes('bien') || query.includes('reproducir') || query.includes('video') || query.includes('idioma') || query.includes('chicken strike') || query.includes('entrar')) {
+        
+        if (query.includes('bien') || query.includes('reproducir')) {
+            return "🎬 <b>Guía Completa: Cómo reproducir videos de forma excelente en MrTube</b><br><br>" +
+                   "Para asegurarte de que el reproductor multimedia cargue a la perfección y disfrutes las animaciones al máximo, sigue estos sencillos pasos:<br><br>" +
+                   "1️⃣ <b>Verifica tu conexión:</b> Asegúrate de tener una conexión estable para que los formatos carguen rápido.<br>" +
+                   "2️⃣ <b>Accede a la Cartelera:</b> Entra a la sección principal de videos desde el panel de navegación.<br>" +
+                   "3️⃣ <b>Selecciona tu Contenido:</b> Haz clic sobre la miniatura del capítulo o crossover que quieras mirar.<br>" +
+                   "4️⃣ <b>Usa el Reproductor Estándar:</b> Presiona el botón de 'Play' central. Si se traba, puedes refrescar el navegador para limpiar la memoria caché.";
         }
+        
+        if (query.includes('idioma')) {
+            return "🌐 <b>Guía Paso a Paso: Cómo cambiar el idioma de la plataforma</b><br><br>" +
+                   "Si necesitas ajustar el idioma de la interfaz del portal web, realiza el siguiente procedimiento:<br><br>" +
+                   "1️⃣ Busca el icono global de <b>Idioma</b> o <b>Ajustes</b> en la esquina de la barra superior.<br>" +
+                   "2️⃣ Despliega el menú de opciones disponibles (Español / Inglés).<br>" +
+                   "3️⃣ Haz clic sobre tu idioma preferido.<br>" +
+                   "4️⃣ El sistema recargará los textos automáticamente de forma limpia sin perder tu sesión activa.";
+        }
+
+        if (query.includes('chicken strike') || query.includes('juego')) {
+            return "🕹️ <b>Guía Directa: Cómo entrar y probar Chicken Strike NPC</b><br><br>" +
+                   "Si estás listo para testear la acción interactiva de nuestro juego montado en GitHub Pages, aquí tienes el camino exacto:<br><br>" +
+                   "1️⃣ Dirígete a la pestaña superior rotulada como <b>'Juegos'</b> o <b>'Proyectos'</b> en el sitio.<br>" +
+                   "2️⃣ Localiza el bloque interactivo de <b>Chicken Strike NPC (Beta)</b>.<br>" +
+                   "3️⃣ Haz clic en el botón de ejecución para cargar los componentes web.<br>" +
+                   "4️⃣ ¡Listo! Ya puedes testear directamente todas las mecánicas de simulación desde tu navegador web.";
+        }
+    }
+
+    // 6. IDENTIDAD
+    if (query.includes('como te llamas') || query.includes('tu nombre') || query.includes('quien eres')) {
+        return "🤖 <b>¡Hola! Yo soy ChapAI Pro</b>, tu asistente virtual e IA de navegación diseñada de forma exclusiva para acompañarte en tus sesiones dentro de <b>MrTube</b> y coordinar proyectos interactivos.<br><br>" +
+               "Mi objetivo es guiarte, responder dudas de soporte técnico, gestionar tramas y ofrecerte un entorno de chat avanzado mediante pestañas múltiples. ¡Listo para la acción!";
+    }
+
+    // 7. MENÚ DE AYUDA GENERAL
+    if (query.includes('ayuda') || query.includes('que haces')) {
+        return "🛠️ <b>¿Necesitas asistencia en el centro de mando? ¡Aquí tienes todo lo que puedo hacer!</b><br><br>" +
+               "Actualmente cuento con módulos avanzados para darte soporte paso a paso. Puedes consultarme lo siguiente:<br><br>" +
+               "📌 Escribe <b>'¿Cómo reproducir un video?'</b> para ver la guía multimedia.<br>" +
+               "📌 Escribe <b>'¿Cómo cambiar el idioma?'</b> para ver la configuración de traducción.<br>" +
+                   "📌 Escribe <b>'¿Cómo entrar a Chicken Strike NPC?'</b> para cargar el simulador interactivo.<br>" +
+               "📌 También puedes evaluar mi inteligencia o simplemente charlar un rato conmigo.";
+    }
+
+    // RESPUESTA DE RESPALDO (Por si no entiende palabras clave específicas)
+    return "🤔 <b>He procesado tu comando detalladamente en la base central...</b><br><br>" +
+           "Como soy un modelo local optimizado especialmente para guiarte en <b>MrTube</b> y en el despliegue de <b>Chicken Strike NPC</b>, requiero palabras clave un poco más directas. 🧠💨<br><br>" +
+           "💡 <i>Prueba saludándome con un 'Hola', pidiéndome 'ayuda', o consúltame un tutorial de las secciones de la página. ¡Estoy a tus órdenes!</i>";
+}
 
         // Carga inicial correcta controlando persistencia
         loadChatsFromStorage();
