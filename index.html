@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChapAI - Hexagon Logo Test</title>
+    <title>ChapAI - El Logo Real</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #0d0f14;
+            background-color: #0b0d14;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,109 +21,76 @@
             text-align: center;
         }
 
-        /* Contenedor principal con efecto flotante */
-        .logo-box {
+        /* Contenedor con animación de flotación suave */
+        .logo-wrapper {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
             margin: 0 auto 20px;
             animation: float 4s ease-in-out infinite;
         }
 
-        /* El SVG basado en la estructura hexagonal de image.png */
-        .hexagon-svg {
+        /* Tu imagen real, limpia, rotando de forma impecable */
+        .real-logo {
             width: 100%;
             height: 100%;
-            transform-origin: center;
-            animation: rotateHex 20s linear infinite;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.6)); /* Le da el toque neón */
+            animation: spin 25s linear infinite;
         }
 
-        /* Los bloques mecánicos del logo */
-        .hex-part {
-            fill: none;
-            stroke: #00ffcc; /* Color neón cyan */
-            stroke-width: 8;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            opacity: 0.9;
-            transition: stroke 0.3s;
-        }
-
-        /* Variación de color para darle profundidad al giro */
-        .part-1 { stroke: #00ffcc; }
-        .part-2 { stroke: #00e5ff; }
-        .part-3 { stroke: #00aaff; }
-
-        /* Aura brillante de fondo */
-        .aura {
+        /* Brillo místico en el fondo */
+        .glow-effect {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle, rgba(0, 255, 204, 0.2) 0%, rgba(0,0,0,0) 75%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.3) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
-            filter: blur(6px);
-            animation: pulseGlow 2s ease-in-out infinite alternate;
-            pointer-events: none;
+            animation: pulse 2s ease-in-out infinite alternate;
+            z-index: -1;
         }
 
         h1 {
             color: #ffffff;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 26px;
             letter-spacing: 2px;
-            margin: 10px 0 5px;
+            margin: 15px 0 5px;
         }
 
         p {
             color: #64748b;
             font-size: 14px;
-            margin: 0;
         }
 
-        /* === ANIMACIONES === */
-
-        /* Flotación suave general */
+        /* === ANIMACIONES PROFESIONALES === */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Rotación continua y elegante del hexágono */
-        @keyframes rotateHex {
+        @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* Pulso del brillo místico */
-        @keyframes pulseGlow {
-            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
-            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.15); }
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="logo-box">
-            <div class="aura"></div>
-            <!-- Estructura limpia inspirada fielmente en la geometría de image.png -->
-            <svg class="hexagon-svg" viewBox="0 0 100 100">
-                <!-- Parte Superior Derecha -->
-                <path class="hex-part part-1" d="M 50 15 L 75 30 L 75 50 C 75 50, 65 40, 50 45 C 40 48, 48 25, 50 15 Z" />
-                <!-- Parte Inferior -->
-                <path class="hex-part part-2" d="M 75 55 L 50 85 L 25 70 C 25 70, 38 62, 42 48 C 45 37, 65 50, 75 55 Z" />
-                <!-- Parte Izquierda -->
-                <path class="hex-part part-3" d="M 22 62 L 22 32 L 46 18 C 46 18, 45 32, 55 42 C 64 50, 32 55, 22 62 Z" />
-                
-                <!-- Centro oscuro limpio -->
-                <circle cx="50" cy="50" r="10" fill="#0d0f14" />
-            </svg>
+        <div class="logo-wrapper">
+            <div class="glow-effect"></div>
+            <img src="logo.png" alt="ChapAI Logo" class="real-logo">
         </div>
         <h1>ChapAI</h1>
-        <p>Prototipo Hexagonal Animado</p>
+        <p>Ahora sí, con el logo original</p>
     </div>
 
 </body>
