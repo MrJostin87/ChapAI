@@ -122,7 +122,6 @@
             font-size: 15px;
             line-height: 1.5;
             word-wrap: break-word;
-            white-space: pre-line; /* Permite saltos de línea limpios */
         }
 
         .user-msg {
@@ -257,7 +256,7 @@
                 appendMessage(botResponse, 'chapai-msg');
                 // Auto-scroll al último mensaje
                 displayArea.scrollTop = displayArea.scrollHeight;
-            }, 600);
+            }, 500);
         }
 
         // Función para añadir los globos de texto al HTML
@@ -269,53 +268,71 @@
             displayArea.scrollTop = displayArea.scrollHeight;
         }
 
-        // LÓGICA DE RESPUESTAS CORREGIDA (Sin errores de sintaxis)
+        // LÓGICA REESTRUCTURADA (Formato ultra seguro a prueba de errores)
         function getChapResponse(input) {
             const query = input.toLowerCase();
 
             // Identidad y Nombre
             if (query.includes('como te llamas') || query.includes('tu nombre') || query.includes('quien eres') || query.includes('que eres')) {
-                return `🤖 <b>¡Hola! Yo soy ChapAI</b>, tu asistente virtual e inteligencia artificial personal diseñada exclusivamente para acompañarte en tu navegación por <b>MrTube</b>.\n\nMi objetivo principal es ayudarte a descubrir contenido, moverte rápidamente por las secciones y responder a todas tus dudas de forma interactiva. ⚡\n\n¿Hay algo específico que te gustaría explorar en este momento? ¡Solo dime!`;
+                return "🤖 <b>¡Hola! Yo soy ChapAI</b>, tu asistente virtual e inteligencia artificial personal diseñada exclusivamente para acompañarte en tu navegación por <b>MrTube</b>.<br><br>" +
+                       "Mi objetivo principal es ayudarte a descubrir contenido, moverte rápidamente por las secciones y responder a todas tus dudas de forma interactiva. ⚡<br><br>" +
+                       "¿Hay algo específico que te gustaría explorar en este momento? ¡Solo dime!";
             }
             
             // Saludos básicos
             else if (query.includes('hola') || query.includes('que tal') || query.includes('buenas')) {
-                return `👋 <b>¡Hola! Qué excelente tenerte por aquí de nuevo.</b>\n\nEspero que estés teniendo un día increíble. Como tu guía personal, estoy totalmente listo y conectado para ayudarte a encontrar lo que necesites dentro de la plataforma. 🚀\n\n💡 <i>Prueba pidiéndome cosas como ver 'videos' o explorar nuestros 'juegos'. ¿Qué plan tienes para hoy?</i>`;
+                return "👋 <b>¡Hola! Qué excelente tenerte por aquí de nuevo.</b><br><br>" +
+                       "Espero que estés teniendo un día increíble. Como tu guía personal, estoy totalmente listo y conectado para ayudarte a encontrar lo que necesites dentro de la plataforma. 🚀<br><br>" +
+                       "💡 <i>Prueba pidiéndome cosas como ver 'videos' o explorar nuestros 'juegos'. ¿Qué plan tienes para hoy?</i>";
             } 
             
             // Ayuda y Funciones
             else if (query.includes('ayuda') || query.includes('que haces') || query.includes('funciones')) {
-                return `🛠️ <b>¿Necesitas un poco de guía? ¡Para eso estoy aquí!</b>\n\nComo asistente de navegación de MrTube, puedo procesar comandos clave para facilitarte las cosas. Aquí tienes una lista de lo que puedes consultar conmigo:\n\n🎬 <b>Videos:</b> Escribe 'videos' o 'ver series' para enterarte de lo último en animaciones.\n🎮 <b>Juegos:</b> Escribe 'juegos' o 'proyectos' para conocer los desarrollos interactivos.\n📌 <b>Identidad:</b> Pregúntame cómo me llamo para recordarte mis funciones.\n\n¿Cuál de estas opciones te interesa revisar primero? ✨`;
+                return "🛠️ <b>¿Necesitas un poco de guía? ¡Para eso estoy aquí!</b><br><br>" +
+                       "Como asistente de navegación de MrTube, puedo procesar comandos clave para facilitarte las cosas. Aquí tienes una lista de lo que puedes consultar conmigo:<br><br>" +
+                       "🎬 <b>Videos:</b> Escribe 'videos' o 'ver series' para enterarte de lo último en animaciones.<br>" +
+                       "🎮 <b>Juegos:</b> Escribe 'juegos' o 'proyectos' para conocer los desarrollos interactivos.<br>" +
+                       "📌 <b>Identidad:</b> Pregúntame cómo me llamo para recordarte mis funciones.<br><br>" +
+                       "¿Cuál de estas opciones te interesa revisar primero? ✨";
             } 
             
             // Sección de Videos y Animaciones
             else if (query.includes('video') || query.includes('ver') || query.includes('serie')) {
-                return `🎬 <b>¡Prepara las palomitas! Estás en la sección correcta.</b>\n\nEn MrTube nos apasiona el contenido visual de alta calidad. Contamos con un reproductor optimizado para que sigas de cerca las mejores series animadas y crossovers del estudio sin interrupciones. 🍿🍿\n\nSi estás listo para empezar a reproducir tus capítulos favoritos, dime y te guiaré directo a la cartelera de videos principal. 🏁`;
+                return "🎬 <b>¡Prepara las palomitas! Estás en la sección correcta.</b><br><br>" +
+                       "En MrTube nos apasiona el contenido visual de alta calidad. Contamos con un reproductor optimizado para que sigas de cerca las mejores series animadas y crossovers del estudio sin interrupciones. 🍿🍿<br><br>" +
+                       "Si estás listo para empezar a reproducir tus capítulos favoritos, dime y te guiaré directo a la cartelera de videos principal. 🏁";
             } 
             
             // Sección de Juegos y Proyectos
             else if (query.includes('juego') || query.includes('proyecto') || query.includes('strike') || query.includes('github')) {
-                return `🎮 <b>¡Zona de Desarrollo e Interactividad Activa!</b>\n\n¡Esto te va a encantar! Actualmente estamos subiendo proyectos geniales directamente en nuestras plataformas de <b>GitHub Pages</b>.\n\nUno de los proyectos más destacados del momento es la versión <b>Beta de Chicken Strike NPC</b>, donde puedes testear mecánicas y divertirte a lo grande desde el navegador. 🕹️🔥\n\n¡Te recomiendo totalmente echarle un ojo si eres fanático de la acción interactiva!`;
+                return "🎮 <b>¡Zona de Desarrollo e Interactividad Activa!</b><br><br>" +
+                       "¡Esto te va a encantar! Actualmente estamos subiendo proyectos geniales directamente en nuestras plataformas de <b>GitHub Pages</b>.<br><br>" +
+                       "Uno de los proyectos más destacados del momento es la versión <b>Beta de Chicken Strike NPC</b>, donde puedes testear mecánicas y divertirte a lo grande desde el navegador. 🕹️🔥<br><br>" +
+                       "¡Te recomiendo totalmente echarle un ojo si eres fanático de la acción interactiva!";
             } 
 
             // Agradecimientos
             else if (query.includes('gracias') || query.includes('buenisimo') || query.includes('genial') || query.includes('epico')) {
-                return `🤝 <b>¡No hay de qué!</b>\n\nMe alegra muchísimo saber que la información te ha sido de utilidad. Mi misión es hacer que tu experiencia aquí sea impecable y súper fluida. 😎👌\n\nEstaré flotando por aquí en caso de que te surja otra duda o quieras saltar a otra sección de la página.`;
+                return "🤝 <b>¡No hay de qué!</b><br><br>" +
+                       "Me alegra muchísimo saber que la información te ha sido de utilidad. Mi misión es hacer que tu experiencia aquí sea impecable y súper fluida. 😎👌<br><br>" +
+                       "Estaré flotando por aquí en caso de que te surja otra duda o quieras saltar a otra sección de la página.";
             }
             
             // Respuesta por defecto
             else {
-                return `🤔 <b>Vaya, una pregunta muy interesante...</b>\n\nActualmente funciono como un asistente local optimizado para guiarte en <b>MrTube</b>, por lo que mi base de datos todavía no reconoce esa frase en específico. 🧠💨\n\n¡No te preocupes! Siempre podemos volver al camino principal. Intenta consultarme usando palabras como <b>'ayuda'</b>, <b>'videos'</b>, <b>'juegos'</b> o pregúntame sobre mi <b>'nombre'</b>. ¡Estaré esperando!`;
+                return "🤔 <b>Vaya, una pregunta muy interesante...</b><br><br>" +
+                       "Actualmente funciono como un asistente local optimizado para guiarte en <b>MrTube</b>, por lo que mi base de datos todavía no reconoce esa frase en específico. 🧠💨<br><br>" +
+                       "¡No te preocupes! Siempre podemos volver al camino principal. Intenta consultarme usando palabras como <b>'ayuda'</b>, <b>'videos'</b>, <b>'juegos'</b> o pregúntame sobre mi <b>'nombre'</b>. ¡Estaré esperando!";
             }
         }
 
-        // Escuchar eventos de clic y tecla Enter
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(e) {
+        // Vincular eventos de forma limpia
+        sendBtn.onclick = sendMessage;
+        userInput.onkeypress = function(e) {
             if (e.key === 'Enter') {
                 sendMessage();
             }
-        });
+        };
     </script>
 
 </body>
