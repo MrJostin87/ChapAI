@@ -120,8 +120,9 @@
             padding: 12px 16px;
             border-radius: 18px;
             font-size: 15px;
-            line-height: 1.4;
+            line-height: 1.5;
             word-wrap: break-word;
+            white-space: pre-line; /* Permite saltos de línea limpios */
         }
 
         .user-msg {
@@ -263,36 +264,68 @@
         function appendMessage(text, className) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('message', className);
-            msgDiv.innerText = text;
+            msgDiv.innerHTML = text; // Cambiado a innerHTML para soportar saltos de línea estilizados
             chatHistory.appendChild(msgDiv);
             displayArea.scrollTop = displayArea.scrollHeight;
         }
 
-        // LÓGICA DE RESPUESTAS (Cerebro local artesanal de ChapAI)
+        // LÓGICA DE RESPUESTAS EXPANDIDA (Estilo ChatGPT / Gemini)
         function getChapResponse(input) {
             const query = input.toLowerCase();
 
-            if (query.includes('ayuda') || query.includes('hola') || query.includes('que haces')) {
-                return "¡Hola! Estoy listo para guiarte en MrTube. Puedes pedirme que te muestre 'videos', que te hable de nuestros 'juegos' o secciones de la página.";
+            // Identidad y Nombre
+            if (query.includes('como te llamas') || query.includes('tu nombre') || query.includes('quien eres') || query.includes('que eres')) {
+                return "🤖 <b>¡Hola! Yo soy ChapAI</b>, tu asistente virtual e inteligencia artificial personal diseñada exclusivamente para acompañarte en tu navegación por <b>MrTube</b>.\n\n" +
+                       "Mi objetivo principal es ayudarte a descubrir contenido, moverte rápidamente por las secciones y responder a todas tus dudas de forma interactiva. ⚡\n\n" +
+                       "¿Hay algo específico que te gustaría explorar en este momento? ¡Solo dime!";
+            }
+            
+            // Saludos básicos
+            else if (query.includes('hola') || query.includes('que tal') || query.includes('buenas')) {
+                return "👋 <b>¡Hola! Qué excelente tenerte por aquí de nuevo.</b>\n\n" +
+                       "Espero que estés teniendo un día increíble. Como tu guía personal, estoy totalmente listo y conectado para ayudarte a encontrar lo que necesites dentro de la plataforma. 🚀\n\n" +
+                       "💡 <i>Prueba pidiéndome cosas como ver 'videos' o explorar nuestros 'juegos'. ¿Qué plan tienes para hoy?</i>";
             } 
-            else if (query.includes('video') || query.includes('ver')) {
-                return "En MrTube puedes disfrutar de las mejores animaciones. ¿Quieres que te lleve a la sección principal de reproducción?";
+            
+            // Ayuda y Funciones
+            else if (query.includes('ayuda') || query.includes('que haces') || query.includes('funciones')) {
+                return "🛠️ <b>¿Necesitas un poco de guía? ¡Para eso estoy aquí!</b>\n\n" +
+                       "Como asistente de navegación de MrTube, puedo procesar comandos clave para facilitarte las cosas. Aquí tienes una lista de lo que puedes consultar conmigo:\n\n" +
+                       "🎬 <b>Videos:</b> Escribe 'videos' o 'ver series' para enterarte de lo último en animaciones.\n" +
+                       "🎮 <b>Juegos:</b> Escribe 'juegos' o 'proyectos' para conocer los desarrollos interactivos.\n" +
+                       "📌 <b>Identidad:</b> Pregúntame cómo me llamo para recordarte mis funciones.\n\n" +
+                       "¿Cuál de estas opciones te interesa revisar primero? ✨";
             } 
-            else if (query.includes('juego') || query.includes('proyecto') || query.includes('strike')) {
-                return "¡Oh, genial! Puedes probar la Beta de Chicken Strike NPC directamente en nuestras plataformas de GitHub. ¡Está épico!";
+            
+            // Sección de Videos y Animaciones
+            else if (query.includes('video') || query.includes('ver') || query.includes('serie')) {
+                return "🎬 <b>¡Prepara las palomitas! Estás en la sección correcta.</b>\n\n" +
+                       "En MrTube nos apasiona el contenido visual de alta calidad. Contamos con un reproductor optimizado para que sigas de cerca las mejores series animadas y crossovers del estudio sin interrupciones. 🍿🍿\n\n" +
+                       "Si estás listo para empezar a reproducir tus capítulos favoritos, dime y te guiaré directo a la cartelera de videos principal. 🏁";
             } 
+            
+            // Sección de Juegos y Proyectos en GitHub (ej. Chicken Strike NPC)
+            else if (query.includes('juego') || query.includes('proyecto') || query.includes('strike') || query.includes('github')) {
+                return "🎮 <b>¡Zona de Desarrollo e Interactividad Activa!</b>\n\n" +
+                       "¡Esto te va a encantar! Actualmente estamos subiendo proyectos geniales directamente en nuestras plataformas de <b>GitHub Pages</b>.\n\n" +
+                       "Uno de los proyectos más destacados del momento es la versión <b>Beta de Chicken Strike NPC</b>, donde puedes testear mecánicas y divertirte a lo grande desde el navegador. 🕹️🔥\n\n" +
+                       "¡Te recomiendo totalmente echarle un ojo si eres fanático de la acción interactiva!";
+            } 
+
+            // Agradecimientos
+            else if (query.includes('gracias') || query.includes('buenisimo') || query.includes('genial') || query.includes('epico')) {
+                return "🤝 <b>¡No hay de qué!</b>\n\n" +
+                       "Me alegra muchísimo saber que la información te ha sido de utilidad. Mi misión es hacer que tu experiencia aquí sea impecable y súper fluida. 😎👌\n\n" +
+                       "Estaré flotando por aquí en caso de que te surja otra duda o quieras saltar a otra sección de la página.";
+            }
+            
+            // Respuesta por defecto (No entiende)
             else {
-                return "Interesante pregunta... Como soy un asistente de navegación local, aún estoy aprendiendo comandos avanzados. Intenta escribiendo 'ayuda' o 'videos'.";
+                return "🤔 <b>Vaya, una pregunta muy interesante...</b>\n\n" +
+                       "Actualmente funciono como un asistente local optimizado para guiarte en <b>MrTube</b>, por lo que mi base de datos todavía no reconoce esa frase en específico. 🧠💨\n\n" +
+                       "¡No te preocupes! Siempre podemos volver al camino principal. Intenta consultarme usando palabras como <b>'ayuda'</b>, <b>'videos'</b>, <b>'juegos'</b> o pregúntame sobre mi <b>'nombre'</b>. ¡Estaré esperando!";
             }
         }
-
-        // Escuchar eventos de clic y tecla Enter
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
     </script>
 
 </body>
