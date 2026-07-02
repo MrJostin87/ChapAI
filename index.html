@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChapAI - Logo Test V2</title>
+    <title>ChapAI - Hexagon Logo Test</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #0b0d14;
+            background-color: #0d0f14;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             overflow: hidden;
         }
 
@@ -21,54 +21,60 @@
             text-align: center;
         }
 
-        /* Contenedor del Logo con animación de flotado sutil */
-        .logo-wrapper {
+        /* Contenedor principal con efecto flotante */
+        .logo-box {
             position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 24px;
-            animation: float 3.5s ease-in-out infinite;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            animation: float 4s ease-in-out infinite;
         }
 
-        /* El SVG que rota elegantemente */
-        .ai-svg {
+        /* El SVG basado en la estructura hexagonal de image.png */
+        .hexagon-svg {
             width: 100%;
             height: 100%;
             transform-origin: center;
-            animation: spinGeom 12s linear infinite;
+            animation: rotateHex 20s linear infinite;
         }
 
-        /* Estilo de las líneas del logo estilo ChatGPT */
-        .ai-path {
-            stroke: #00ffcc; /* Color neón cyan */
-            stroke-width: 2;
+        /* Los bloques mecánicos del logo */
+        .hex-part {
             fill: none;
+            stroke: #00ffcc; /* Color neón cyan */
+            stroke-width: 8;
             stroke-linecap: round;
-            stroke-dasharray: 100;
-            animation: drawLines 4s ease-in-out infinite alternate;
+            stroke-linejoin: round;
+            opacity: 0.9;
+            transition: stroke 0.3s;
         }
 
-        /* Brillo de fondo */
-        .glow {
+        /* Variación de color para darle profundidad al giro */
+        .part-1 { stroke: #00ffcc; }
+        .part-2 { stroke: #00e5ff; }
+        .part-3 { stroke: #00aaff; }
+
+        /* Aura brillante de fondo */
+        .aura {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle, rgba(0, 255, 20c, 0.25) 0%, rgba(0,0,0,0) 70%);
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.2) 0%, rgba(0,0,0,0) 75%);
             border-radius: 50%;
-            filter: blur(4px);
+            filter: blur(6px);
             animation: pulseGlow 2s ease-in-out infinite alternate;
             pointer-events: none;
         }
 
         h1 {
             color: #ffffff;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 600;
-            letter-spacing: 1.5px;
-            margin: 0 0 8px 0;
+            letter-spacing: 2px;
+            margin: 10px 0 5px;
         }
 
         p {
@@ -79,48 +85,45 @@
 
         /* === ANIMACIONES === */
 
-        /* 1. Flotación limpia de arriba a abajo */
+        /* Flotación suave general */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
         }
 
-        /* 2. Rotación continua, suave y profesional de la geometría */
-        @keyframes spinGeom {
+        /* Rotación continua y elegante del hexágono */
+        @keyframes rotateHex {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* 3. Efecto de "energía" recorriendo las líneas */
-        @keyframes drawLines {
-            0% { stroke-dashoffset: 100; stroke-width: 1.5; opacity: 0.6; }
-            100% { stroke-dashoffset: 0; stroke-width: 2.5; opacity: 1; stroke-color: #00bfff; }
-        }
-
-        /* 4. Pulso del brillo místico trasero */
+        /* Pulso del brillo místico */
         @keyframes pulseGlow {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.15); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="logo-wrapper">
-            <div class="glow"></div>
-            <!-- SVG con una estructura de bucles entrelazados más cercana a ChatGPT -->
-            <svg class="ai-svg" viewBox="0 0 100 100">
-                <!-- Centro -->
-                <circle cx="50" cy="50" r="4" fill="#00ffcc" />
-                <!-- Pétalos/Bucles Geométricos con curvas limpias -->
-                <path class="ai-path" d="M50,50 C40,30 30,40 50,50 C60,30 70,40 50,50 C40,70 30,60 50,50 C60,70 70,60 50,50" />
-                <path class="ai-path" d="M50,50 C30,40 40,30 50,50 C70,40 60,30 50,50 C30,60 40,70 50,50 C70,60 60,70 50,50" style="animation-delay: -1s; stroke: #00ccff;" />
-                <path class="ai-path" d="M50,50 C35,35 45,25 50,50 C65,35 55,25 50,50 C35,65 45,75 50,50 C65,65 55,75 50,50" style="animation-delay: -2s;" />
+        <div class="logo-box">
+            <div class="aura"></div>
+            <!-- Estructura limpia inspirada fielmente en la geometría de image.png -->
+            <svg class="hexagon-svg" viewBox="0 0 100 100">
+                <!-- Parte Superior Derecha -->
+                <path class="hex-part part-1" d="M 50 15 L 75 30 L 75 50 C 75 50, 65 40, 50 45 C 40 48, 48 25, 50 15 Z" />
+                <!-- Parte Inferior -->
+                <path class="hex-part part-2" d="M 75 55 L 50 85 L 25 70 C 25 70, 38 62, 42 48 C 45 37, 65 50, 75 55 Z" />
+                <!-- Parte Izquierda -->
+                <path class="hex-part part-3" d="M 22 62 L 22 32 L 46 18 C 46 18, 45 32, 55 42 C 64 50, 32 55, 22 62 Z" />
+                
+                <!-- Centro oscuro limpio -->
+                <circle cx="50" cy="50" r="10" fill="#0d0f14" />
             </svg>
         </div>
         <h1>ChapAI</h1>
-        <p>Prototipo de Logo Animado V2</p>
+        <p>Prototipo Hexagonal Animado</p>
     </div>
 
 </body>
