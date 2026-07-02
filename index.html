@@ -513,8 +513,11 @@ function getAdvancedBrainResponse(input) {
                "El sistema ChapAI Pro está operando al 100% en sus servidores 👍 ¿En qué proyecto o configuración de la plataforma vamos a trabajar hoy? ¡Estoy lista para ayudarte cuando quieras! 😉👌";
     }
 
-    // 2. DETECTOR DE EMOCIONES NEGATIVAS
-    if (/[😡🤬🙄😤😩😫😠]/.test(input) || query.includes('molesto') || query.includes('te odio')) {
+    // 2. DETECTOR DE EMOCIONES NEGATIVAS (¡Corregido!)
+    const emojisEnojo = ['😡', '🤬', '🙄', '😤', '😩', '😫', '😠'];
+    const contieneEmojiEnojado = emojisEnojo.some(emoji => input.includes(emoji));
+
+    if (contieneEmojiEnojado || query.includes('molesto') || query.includes('te odio')) {
         return "😔 <b>¡Oh, lamento mucho que te sientas así!</b><br><br>" +
                "Veo que estás usando emojis de molestia o frustración (😡🤬😤). Mi intención nunca es incomodarte ni complicarte las cosas. Como tu asistente virtual, estoy aquí para ayudarte a solucionar cualquier problema de forma amable y relajada.<br><br>" +
                "¿Hay algo específico en el diseño o el sistema que podamos corregir juntos en este instante? ¡Dime y lo solucionamos!";
