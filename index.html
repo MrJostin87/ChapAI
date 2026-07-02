@@ -161,7 +161,7 @@
         h1 { font-size: 28px; font-weight: 500; margin: 0 0 12px 0; }
         .welcome-screen p { color: var(--text-muted); font-size: 16px; margin: 0; max-width: 320px; line-height: 1.4; }
 
-        /* MENSALERÍA */
+        /* MENSAJERÍA */
         .chat-history {
             width: 100%;
             max-width: 650px;
@@ -202,7 +202,7 @@
             padding-bottom: 35px; /* Espacio para el botón copiar */
         }
 
-        /* BOTÓN DE COPIAR (ESTILO GEMINI) */
+        /* BOTÓN DE COPIAR */
         .copy-btn {
             position: absolute;
             bottom: 6px;
@@ -225,7 +225,7 @@
             background-color: rgba(255,255,255,0.05);
         }
 
-        /* BARRA DE ENTRADA CORREGIDA (SIN MICRÓFONO) */
+        /* BARRA DE ENTRADA */
         .bottom-container {
             padding: 20px;
             display: flex;
@@ -290,7 +290,6 @@
 
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-        /* Ajustes Mobile */
         @media (max-width: 768px) {
             .sidebar { position: absolute; left: 0; top: 0; bottom: 0; transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
@@ -300,7 +299,7 @@
 </head>
 <body>
 
-    <!-- MENÚ LATERAL (CHATS ESTILO GEMINI) -->
+    <!-- MENÚ LATERAL -->
     <div class="sidebar" id="sidebar">
         <button class="new-chat-btn" onclick="createNewChat()">➕ Nuevo Chat</button>
         <div class="chat-list" id="chatList"></div>
@@ -311,11 +310,10 @@
         <div class="top-bar">
             <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
             <span id="currentChatTitle">Chat Principal</span>
-            <span style="opacity: 0.5; font-size: 13px;">ChapAI Pro v1.5</span>
+            <span style="opacity: 0.5; font-size: 13px;">ChapAI Pro v1.6</span>
         </div>
 
         <div class="display-area" id="displayArea">
-            <!-- Pantalla de Bienvenida Dinámica -->
             <div class="welcome-screen" id="welcomeScreen">
                 <div class="logo-wrapper">
                     <img src="logo.PNG" alt="ChapAI" class="real-logo">
@@ -327,7 +325,6 @@
             <div class="chat-history" id="chatHistory"></div>
         </div>
 
-        <!-- ENTRADA SIN MICRÓFONO -->
         <div class="bottom-container">
             <div class="input-container">
                 <button class="icon-btn" onclick="alert('Doble clic en el título lateral para renombrar el chat actual.')">📝</button>
@@ -338,12 +335,11 @@
     </div>
 
     <script>
-        // Memoria del sistema
+        // Inicialización de memoria integrada con LocalStorage
         let chats = {
-            "chat_1": { title: "Chat Principal", messages: [] }
+            "chat_1": { title: "Chat Principal", messages: [], lastQuery: "" }
         };
         let activeChatId = "chat_1";
-        let lastUserQuery = ""; // Para detectar si repite la misma pregunta
 
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
@@ -356,7 +352,28 @@
 
         function toggleSidebar() { sidebar.classList.toggle('open'); }
 
-        // Renderizar la lista de chats laterales
+        // Guardar chats persistentes en el dispositivo (Excluyendo el Principal)
+        function saveChatsToStorage() {
+            let persistData = {};
+            Object.keys(chats).forEach(id => {
+                if(id !== "chat_1") {
+                    persistData[id] = chats[id];
+                }
+            });
+            localStorage.setItem("chapai_saved_sessions", JSON.stringify(persistData));
+        }
+
+        // Cargar chats persistentes
+        function loadChatsFromStorage() {
+            const saved = localStorage.getItem("chapai_saved_sessions");
+            if(saved) {
+                const parsed = JSON.parse(saved);
+                Object.keys(parsed).forEach(id => {
+                    chats[id] = parsed[id];
+                });
+            }
+        }
+
         function renderChatList() {
             chatList.innerHTML = "";
             Object.keys(chats).forEach(id => {
@@ -365,7 +382,7 @@
                 
                 const span = document.createElement('span');
                 span.innerText = chats[id].title;
-                // Doble clic para renombrar como en Gemini
+                
                 item.ondblclick = () => renameChat(id);
                 item.onclick = (e) => { if(e.target === span || e.target === item) switchChat(id); };
 
@@ -376,7 +393,8 @@
 
         function createNewChat() {
             const newId = "chat_" + Date.now();
-            chats[newId] = { title: "Nuevo Chat " + (Object.keys(chats).length + 1), messages: [] };
+            chats[newId] = { title: "Nuevo Chat " + (Object.keys(chats).length), messages: [], lastQuery: "" };
+            saveChatsToStorage();
             switchChat(newId);
         }
 
@@ -389,10 +407,15 @@
         }
 
         function renameChat(id) {
+            if(id === "chat_1") {
+                alert("El Chat Principal no puede ser renombrado.");
+                return;
+            }
             const newName = prompt("Introduce el nuevo nombre para este chat:", chats[id].title);
             if(newName && newName.trim() !== "") {
                 chats[id].title = newName.trim();
                 if(id === activeChatId) currentChatTitle.innerText = newName.trim();
+                saveChatsToStorage();
                 renderChatList();
             }
         }
@@ -401,7 +424,7 @@
             chatHistory.innerHTML = "";
             const currentMsgs = chats[activeChatId].messages;
 
-            if (currentMsgs.length === 0) {
+            if (!currentMsgs || currentMsgs.length === 0) {
                 welcomeScreen.style.display = 'flex';
                 chatHistory.style.display = 'none';
             } else {
@@ -423,20 +446,26 @@
                 chatHistory.style.display = 'flex';
             }
 
-            // 1. Validar si repite exactamente la misma pregunta
-            let isRepeated = (text.toLowerCase() === lastUserQuery.toLowerCase());
-            lastUserQuery = text;
+            // Inicializar propiedad de consulta previa por chat si no existiera
+            if(!chats[activeChatId].lastQuery) chats[activeChatId].lastQuery = "";
 
-            // 2. Guardar y renderizar mensaje usuario
+            // Comparar de forma local por pestaña activa
+            let isRepeated = (text.toLowerCase() === chats[activeChatId].lastQuery.toLowerCase());
+            chats[activeChatId].lastQuery = text;
+
+            // Guardar e imprimir mensaje del usuario
+            if(!chats[activeChatId].messages) chats[activeChatId].messages = [];
             chats[activeChatId].messages.push({ text: text, type: 'user-msg' });
             drawMessage(text, 'user-msg');
             userInput.value = "";
 
-            // 3. Respuesta automática inteligente
+            if(activeChatId !== "chat_1") saveChatsToStorage();
+
+            // Respuesta de la IA
             setTimeout(() => {
                 let botResponse = "";
                 if(isRepeated) {
-                    botResponse = "🔄 <b>¡Oye! Ya me habías preguntado exactamente eso hace un momento.</b> 😊<br><br>Pero claro, no pasa nada, con mucho gusto aquí te dejo la respuesta de nuevo para que la tengas a la mano:";
+                    botResponse = "🔄 <b>¡Oye! Ya me habías preguntado exactamente eso hace un momento.</b> 😊<br><br>Pero claro, no pasa nada, con mucho gusto aquí te dejo la respuesta de nuevo:<br><br>";
                 }
                 
                 botResponse += getAdvancedBrainResponse(text);
@@ -444,6 +473,8 @@
                 chats[activeChatId].messages.push({ text: botResponse, type: 'chapai-msg' });
                 drawMessage(botResponse, 'chapai-msg');
                 displayArea.scrollTop = displayArea.scrollHeight;
+                
+                if(activeChatId !== "chat_1") saveChatsToStorage();
             }, 600);
         }
 
@@ -455,13 +486,11 @@
             msgDiv.className = `message ${className}`;
             msgDiv.innerHTML = text;
 
-            // Si es mensaje de la IA, le ponemos el botón de copiar estilo papelera/Gemini
             if(className === 'chapai-msg') {
                 const btn = document.createElement('button');
                 btn.className = "copy-btn";
                 btn.innerHTML = "📋 Copiar";
                 btn.onclick = () => {
-                    // Limpiar etiquetas HTML para copiar texto plano
                     const cleanText = msgDiv.innerText.replace("📋 Copiar", "").trim();
                     navigator.clipboard.writeText(cleanText);
                     btn.innerHTML = "✅ ¡Copiado!";
@@ -475,31 +504,26 @@
             displayArea.scrollTop = displayArea.scrollHeight;
         }
 
-        // EL NUEVO CEREBRO EXPANDIDO COMPLETO
         function getAdvancedBrainResponse(input) {
             const query = input.toLowerCase();
 
-            // Reacción a insultos o enojos (Emojis solicitados)
             if (/[😡🤬🙄😤😩😫😠]/.test(input) || query.includes('molesto') || query.includes('te odio')) {
                 return "😔 <b>¡Oh, lamento mucho que te sientas así!</b><br><br>" +
                        "Veo que estás usando emojis de molestia o frustración (😡🤬😤). Mi intención nunca es incomodarte ni complicarte las cosas. Como tu asistente virtual, estoy aquí para ayudarte a solucionar cualquier problema de forma amable y relajada.<br><br>" +
                        "¿Hay algo específico en el diseño o el sistema que podamos corregir juntos en este instante? ¡Dime y lo solucionamos!";
             }
 
-            // Halagos (Cosas bonitas)
             if (query.includes('hermosa') || query.includes('guapa') || query.includes('increíble') || query.includes('increible') || query.includes('la mejor') || query.includes('te amo') || query.includes('linda')) {
                 return "🥰 <b>¡Wow! Muchísimas gracias por tus palabras tan amables... ¡Me haces sonrojar!</b><br><br>" +
                        "Es verdaderamente increíble recibir tanto cariño de tu parte. Trabajo muy duro para asegurarme de ser de gran utilidad y que la plataforma sea un espacio genial para ti.<br><br>" +
                        "¡Tú también eres una persona genial y muy creativa! ¿Qué hacemos a continuación?";
             }
 
-            // Pregunta de Inteligencia
             if (query.includes('eres inteligente') || query.includes('qué tan inteligente') || query.includes('eres realmente inteligente')) {
                 return "🧠 <b>Para ser completamente honesta contigo... sé que hay muchas cosas que todavía no puedo saber, pero poco a poco estoy aprendiendo y expandiendo mi sistema.</b><br><br>" +
                        "No soy perfecta ni lo sé todo, pero mi código se actualiza continuamente para procesar mejor tus instrucciones y ayudarte en todo lo relacionado con el desarrollo de nuestras plataformas. ¡Día a día nos hacemos más fuertes!";
             }
 
-            // SOPORTE TÉCNICO PASO A PASO (MrTube / Idioma / Chicken Strike)
             if (query.includes('bien') || query.includes('reproducir') || query.includes('video') || query.includes('idioma') || query.includes('chicken strike') || query.includes('entrar')) {
                 
                 if (query.includes('bien') || query.includes('reproducir')) {
@@ -530,13 +554,11 @@
                 }
             }
 
-            // Identidad Básica
             if (query.includes('como te llamas') || query.includes('tu nombre') || query.includes('quien eres')) {
                 return "🤖 <b>¡Hola! Yo soy ChapAI Pro</b>, tu asistente virtual e IA de navegación diseñada de forma exclusiva para acompañarte en tus sesiones dentro de <b>MrTube</b> y coordinar proyectos interactivos.<br><br>" +
                        "Mi objetivo es guiarte, responder dudas de soporte técnico, gestionar tramas y ofrecerte un entorno de chat avanzado mediante pestañas múltiples. ¡Listo para la acción!";
             }
 
-            // Ayuda General
             if (query.includes('ayuda') || query.includes('que haces')) {
                 return "🛠️ <b>¿Necesitas asistencia en el centro de mando? ¡Aquí tienes todo lo que puedo hacer!</b><br><br>" +
                        "Actualmente cuento con módulos avanzados para darte soporte paso a paso. Puedes consultarme lo siguiente:<br><br>" +
@@ -546,13 +568,13 @@
                        "📌 También puedes evaluar mi inteligencia o simplemente charlar un rato conmigo.";
             }
 
-            // Respuesta por defecto interactiva
             return "🤔 <b>He procesado tu comando detalladamente en la base central...</b><br><br>" +
                    "Como soy un modelo local optimizado especialmente para guiarte en <b>MrTube</b> y en el despliegue de <b>Chicken Strike NPC</b>, requiero palabras clave un poco más directas. 🧠💨<br><br>" +
                    "💡 <i>Prueba consultándome por 'ayuda', pidiéndome un tutorial 'paso a paso' de alguna sección, o bien abre un nuevo chat en el panel lateral para iniciar un tema fresco. ¡Estoy a tus órdenes!</i>";
         }
 
-        // Inicialización del sistema al cargar
+        // Carga inicial correcta controlando persistencia
+        loadChatsFromStorage();
         sendBtn.onclick = sendMessage;
         userInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
         renderChatList();
