@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChapAI - Logo Test</title>
+    <style>
+        /* Fondo oscuro para que resalte el diseño estilo tecnológico */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f111a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Contenedor del Logo con animación de "respiración" y flotado */
+        .logo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: floatAndBreathe 4s ease-in-out infinite;
+        }
+
+        /* El diseño geométrico inspirado en ChatGPT (Espiral de círculos/pétalos) */
+        .chap-logo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+        }
+
+        /* Generamos los pétalos geométricos en movimiento rotatorio continuo */
+        .petal {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #00ffcc; /* Color neón tecnológico */
+            border-radius: 50%;
+            top: 40px;
+            left: 40px;
+            mix-blend-mode: screen;
+            animation: spinPetals 8s linear infinite;
+            opacity: 0.8;
+        }
+
+        /* Posiciones iniciales para crear la forma de espiral */
+        .petal:nth-child(1) { transform: rotate(0deg) translate(25px); animation-delay: 0s; }
+        .petal:nth-child(2) { transform: rotate(60deg) translate(25px); animation-delay: -0.5s; border-color: #00ccff; }
+        .petal:nth-child(3) { transform: rotate(120deg) translate(25px); animation-delay: -1s; }
+        .petal:nth-child(4) { transform: rotate(180deg) translate(25px); animation-delay: -1.5s; border-color: #00ccff; }
+        .petal:nth-child(5) { transform: rotate(240deg) translate(25px); animation-delay: -2s; }
+        .petal:nth-child(6) { transform: rotate(300deg) translate(25px); animation-delay: -2.5s; border-color: #00ffcc; }
+
+        /* Efecto de brillo de fondo */
+        .glow-effect {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(0,255,204,0.4) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin: 10px 0 5px;
+        }
+
+        p {
+            color: #8f9cae;
+            font-size: 14px;
+        }
+
+        /* === ANIMACIONES CSS === */
+
+        /* 1. Flotación y respiración suave del logo completo */
+        @keyframes floatAndBreathe {
+            0% {
+                transform: translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+        }
+
+        /* 2. Rotación continua de la estructura geométrica */
+        @keyframes spinPetals {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 3. Pulso del brillo central */
+        @keyframes pulseGlow {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.3); opacity: 0.9; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-container">
+            <div class="glow-effect"></div>
+            <!-- Estructura de pétalos cruzados simulando la IA -->
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+        </div>
+        <h1>ChapAI</h1>
+        <p>Prueba de concepto de logo animado</p>
+    </div>
+
+</body>
+</html>
