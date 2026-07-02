@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChapAI - Bienvenido</title>
+    <title>ChapAI - Funcionalidad</title>
     <style>
-        /* Fondo oscuro idéntico a las apps modernas de IA */
         body {
             margin: 0;
             padding: 0;
@@ -15,14 +14,13 @@
             justify-content: space-between;
             align-items: center;
             height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             color: #ffffff;
             overflow: hidden;
             box-sizing: border-box;
             padding: 20px;
         }
 
-        /* Barra superior (Opcional, estilo App) */
         .top-bar {
             width: 100%;
             display: flex;
@@ -33,16 +31,37 @@
             font-size: 14px;
         }
 
-        /* Contenedor Central (Logo + Mensaje) */
-        .main-content {
+        /* Contenedor principal que aloja la bienvenida o el chat */
+        .display-area {
+            flex: 1;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            margin: 20px 0;
+            padding-right: 5px;
+        }
+
+        /* Oculta la barra de scroll visualmente pero mantiene la función */
+        .display-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .display-area::-webkit-scrollbar-thumb {
+            background: #282a34;
+            border-radius: 10px;
+        }
+
+        /* Pantalla de Bienvenida Inicial */
+        .welcome-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-bottom: 40px; /* Desplaza un poco hacia arriba del centro */
         }
 
-        /* Contenedor del Logo con tu animación original */
         .logo-wrapper {
             position: relative;
             width: 90px;
@@ -72,15 +91,13 @@
             z-index: -1;
         }
 
-        /* Texto de bienvenida */
         h1 {
             font-size: 28px;
             font-weight: 500;
             margin: 0 0 12px 0;
-            letter-spacing: -0.5px;
         }
 
-        p {
+        .welcome-screen p {
             color: #9ca3af;
             font-size: 16px;
             margin: 0;
@@ -88,12 +105,46 @@
             line-height: 1.4;
         }
 
-        /* Barra de Entrada Inferior (Estilo Gemini) */
+        /* Contenedor del Historial de Chat (Aparece al escribir) */
+        .chat-history {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        /* Burbujas de mensajes */
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .user-msg {
+            background-color: #282a34;
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chapai-msg {
+            background-color: #181a20;
+            color: #e5e7eb;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border-left: 3px solid #00ffcc;
+        }
+
+        /* Barra de Entrada */
         .input-container {
             width: 100%;
             max-width: 480px;
             background-color: #181a20;
-            border-radius: 30px; /* Forma de píldora redonda */
+            border-radius: 30px;
             padding: 6px 14px;
             display: flex;
             align-items: center;
@@ -115,7 +166,6 @@
             color: #6b7280;
         }
 
-        /* Botones de acción dentro de la barra */
         .icon-btn {
             background: none;
             border: none;
@@ -125,15 +175,9 @@
             padding: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
+            outline: none;
         }
 
-        .icon-btn:hover {
-            color: #00ffcc;
-        }
-
-        /* Botón de enviar estilo círculo */
         .send-btn {
             background-color: #282a34;
             color: #ffffff;
@@ -141,47 +185,115 @@
             width: 36px;
             height: 36px;
             margin-left: 5px;
+            justify-content: center;
         }
 
-        /* === ANIMACIONES === */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.4; }
-            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
-        }
+        /* Animaciones */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.4; } 100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; } }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <span>ChapAI v1.0</span>
-        <span>⚡ Conectado</span>
+        <span>⚡ Local-Lógica</span>
     </div>
 
-    <div class="main-content">
-        <div class="logo-wrapper">
-            <div class="glow-effect"></div>
-            <img src="logo.PNG" alt="ChapAI" class="real-logo">
+    <!-- Área dinámica que cambia de Bienvenida a Chat -->
+    <div class="display-area" id="displayArea">
+        
+        <!-- Pantalla de Bienvenida -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="logo-wrapper">
+                <div class="glow-effect"></div>
+                <img src="logo.png" alt="ChapAI" class="real-logo">
+            </div>
+            <h1>¡Hola! Soy ChapAI</h1>
+            <p>Tu inteligencia personal de navegación. ¿En qué puedo ayudarte hoy?</p>
         </div>
-        <h1>¡Hola! Soy ChapAI</h1>
-        <p>Tu inteligencia personal de navegación. ¿En qué puedo ayudarte hoy?</p>
+
+        <!-- Historial de Chat (Inicia oculto) -->
+        <div class="chat-history" id="chatHistory"></div>
+
     </div>
 
+    <!-- Formulario de Entrada de Mensajes -->
     <div class="input-container">
         <button class="icon-btn">+</button>
-        <input type="text" class="input-box" placeholder="Pregúntale a ChapAI..." disabled>
+        <input type="text" class="input-box" id="userInput" placeholder="Pregúntale a ChapAI..." autocomplete="off">
         <button class="icon-btn">🎙️</button>
-        <button class="icon-btn send-btn">➔</button>
+        <button class="icon-btn send-btn" id="sendBtn">➔</button>
     </div>
+
+    <script>
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const chatHistory = document.getElementById('chatHistory');
+        const displayArea = document.getElementById('displayArea');
+
+        // Función para procesar y enviar mensajes
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (text === "") return;
+
+            // 1. Ocultar bienvenida y mostrar chat si es el primer mensaje
+            if (welcomeScreen.style.display !== 'none') {
+                welcomeScreen.style.display = 'none';
+                chatHistory.style.display = 'flex';
+                displayArea.style.justifyContent = 'flex-end'; // Alinea el chat abajo
+            }
+
+            // 2. Agregar mensaje del usuario al chat
+            appendMessage(text, 'user-msg');
+            userInput.value = ""; // Limpiar input
+
+            // 3. Generar respuesta automática de ChapAI después de un pequeño delay
+            setTimeout(() => {
+                const botResponse = getChapResponse(text);
+                appendMessage(botResponse, 'chapai-msg');
+                // Auto-scroll al último mensaje
+                displayArea.scrollTop = displayArea.scrollHeight;
+            }, 600);
+        }
+
+        // Función para añadir los globos de texto al HTML
+        function appendMessage(text, className) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', className);
+            msgDiv.innerText = text;
+            chatHistory.appendChild(msgDiv);
+            displayArea.scrollTop = displayArea.scrollHeight;
+        }
+
+        // LÓGICA DE RESPUESTAS (Cerebro local artesanal de ChapAI)
+        function getChapResponse(input) {
+            const query = input.toLowerCase();
+
+            if (query.includes('ayuda') || query.includes('hola') || query.includes('que haces')) {
+                return "¡Hola! Estoy listo para guiarte en MrTube. Puedes pedirme que te muestre 'videos', que te hable de nuestros 'juegos' o secciones de la página.";
+            } 
+            else if (query.includes('video') || query.includes('ver')) {
+                return "En MrTube puedes disfrutar de las mejores animaciones. ¿Quieres que te lleve a la sección principal de reproducción?";
+            } 
+            else if (query.includes('juego') || query.includes('proyecto') || query.includes('strike')) {
+                return "¡Oh, genial! Puedes probar la Beta de Chicken Strike NPC directamente en nuestras plataformas de GitHub. ¡Está épico!";
+            } 
+            else {
+                return "Interesante pregunta... Como soy un asistente de navegación local, aún estoy aprendiendo comandos avanzados. Intenta escribiendo 'ayuda' o 'videos'.";
+            }
+        }
+
+        // Escuchar eventos de clic y tecla Enter
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 
 </body>
 </html>
