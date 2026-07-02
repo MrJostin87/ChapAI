@@ -3,72 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChapAI - El Logo Real</title>
+    <title>ChapAI - Bienvenido</title>
     <style>
+        /* Fondo oscuro idéntico a las apps modernas de IA */
         body {
             margin: 0;
             padding: 0;
-            background-color: #0b0d14;
+            background-color: #07080a;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
             height: 100vh;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
             overflow: hidden;
+            box-sizing: border-box;
+            padding: 20px;
         }
 
-        .container {
+        /* Barra superior (Opcional, estilo App) */
+        .top-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 500px;
+            opacity: 0.6;
+            font-size: 14px;
+        }
+
+        /* Contenedor Central (Logo + Mensaje) */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
+            margin-bottom: 40px; /* Desplaza un poco hacia arriba del centro */
         }
 
-        /* Contenedor con animación de flotación suave */
+        /* Contenedor del Logo con tu animación original */
         .logo-wrapper {
             position: relative;
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 25px;
             animation: float 4s ease-in-out infinite;
         }
 
-        /* Tu imagen real, limpia, rotando de forma impecable */
         .real-logo {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.6)); /* Le da el toque neón */
-            animation: spin 25s linear infinite;
+            filter: drop-shadow(0 0 12px rgba(0, 255, 204, 0.5));
+            animation: spin 30s linear infinite;
         }
 
-        /* Brillo místico en el fondo */
         .glow-effect {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(0, 255, 204, 0.3) 0%, rgba(0,0,0,0) 70%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.2) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite alternate;
             z-index: -1;
         }
 
+        /* Texto de bienvenida */
         h1 {
-            color: #ffffff;
-            font-size: 26px;
-            letter-spacing: 2px;
-            margin: 15px 0 5px;
+            font-size: 28px;
+            font-weight: 500;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
         }
 
         p {
-            color: #64748b;
-            font-size: 14px;
+            color: #9ca3af;
+            font-size: 16px;
+            margin: 0;
+            max-width: 280px;
+            line-height: 1.4;
         }
 
-        /* === ANIMACIONES PROFESIONALES === */
+        /* Barra de Entrada Inferior (Estilo Gemini) */
+        .input-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: #181a20;
+            border-radius: 30px; /* Forma de píldora redonda */
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 10px 8px;
+            outline: none;
+        }
+
+        .input-box::placeholder {
+            color: #6b7280;
+        }
+
+        /* Botones de acción dentro de la barra */
+        .icon-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .icon-btn:hover {
+            color: #00ffcc;
+        }
+
+        /* Botón de enviar estilo círculo */
+        .send-btn {
+            background-color: #282a34;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            margin-left: 5px;
+        }
+
+        /* === ANIMACIONES === */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
 
         @keyframes spin {
@@ -77,20 +155,32 @@
         }
 
         @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+            0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.8; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="top-bar">
+        <span>ChapAI v1.0</span>
+        <span>⚡ Conectado</span>
+    </div>
+
+    <div class="main-content">
         <div class="logo-wrapper">
             <div class="glow-effect"></div>
-            <img src="logo.PNG" alt="ChapAI Logo" class="real-logo">
+            <img src="logo.png" alt="ChapAI" class="real-logo">
         </div>
-        <h1>ChapAI</h1>
-        <p>Ahora sí, con el logo original</p>
+        <h1>¡Hola! Soy ChapAI</h1>
+        <p>Tu inteligencia personal de navegación. ¿En qué puedo ayudarte hoy?</p>
+    </div>
+
+    <div class="input-container">
+        <button class="icon-btn">+</button>
+        <input type="text" class="input-box" placeholder="Pregúntale a ChapAI..." disabled>
+        <button class="icon-btn">🎙️</button>
+        <button class="icon-btn send-btn">➔</button>
     </div>
 
 </body>
